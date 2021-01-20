@@ -1,12 +1,14 @@
 import { Controller, Get, Query, Param, Req, Res, Headers } from '@nestjs/common';
 import { ApiHeader, ApiQuery, ApiTags } from '@nestjs/swagger';
 
+import { CacheService } from '../services/cache.service';
+
 // 文档：https://docs.nestjs.com/openapi/operations
 
 @Controller()
 @ApiTags('Configuration')
 export class ConfigurationController {
-    constructor() { }
+    constructor(private readonly cache: CacheService) { }
 
     @Get('/api/configuration')
     @ApiHeader({
@@ -17,7 +19,7 @@ export class ConfigurationController {
         name: 'x-fingerprint-id',
         description: '所属平台'
     })
-    getConfiguration(@Query() query, @Headers() headers) {
+    async getConfiguration(@Query() query, @Headers() headers) {
         return {
             message: 'this is content'
         }
